@@ -42,7 +42,7 @@ public class Order {
 
 
 
-    public void setMember(Member member){
+    public void changeMember(Member member){
         member.getOrders().add(this);
         this.setMember(member);
     }
@@ -52,8 +52,42 @@ public class Order {
         orderItem.setOrder(this);
     }
 
-    public void setDelivery(Delivery delivery){
+    public void changeDelivery(Delivery delivery){
         this.setDelivery(delivery);
         delivery.setOrder(this);
     }
+
+    public static Order createOrder(Member member,Delivery delivery,OrderItem... orderItems){
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for (OrderItem orderItem : orderItems) {
+            order.getOrderItems().add(orderItem);
+        }
+        order.setOrderDate(LocalDateTime.now());
+        order.setStatus(OrderStatus.ORDER);
+
+        return order;
+    }
+
+    public void cancel(){
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("이미 배송완료된 상품");
+        }
+        this.setStatus(OrderStatus.CANCEL);
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
+    }
+
+    public int getTotalPrice(){
+        int totalPrice=0;
+
+        for (OrderItem orderItem : orderItems) {
+            totalPrice+=orderItem.getTotalPrice();
+        }
+        return totalPrice;
+    }
+
+
 }
