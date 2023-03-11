@@ -1,9 +1,6 @@
 package jpabook3.jpashop3.service;
 
-import jpabook3.jpashop3.domain.Delivery;
-import jpabook3.jpashop3.domain.Member;
-import jpabook3.jpashop3.domain.Order;
-import jpabook3.jpashop3.domain.OrderItem;
+import jpabook3.jpashop3.domain.*;
 import jpabook3.jpashop3.domain.item.Item;
 import jpabook3.jpashop3.repository.ItemRepository;
 import jpabook3.jpashop3.repository.MemberRepository;
@@ -46,7 +43,9 @@ public class OrderService {
         order.cancel();
     }
 
-
+    public List<Order> findOrders(OrderSearch orderSearch){
+        return orderRepository.findAllByString(orderSearch);
+    }
 
 
 }
