@@ -2,6 +2,7 @@ package jpabook3.jpashop3.domain;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Delivery {
     @Embedded
     private Address address;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY,mappedBy = "delivery")
     private Order order;
 

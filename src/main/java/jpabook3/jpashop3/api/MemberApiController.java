@@ -36,19 +36,15 @@ public class MemberApiController {
     static class CreateMemberRequest{
         private String name;
     }
-
-
-
     @Data
     static class CreateMemberResponse{
         private Long id;
-
         public CreateMemberResponse(Long id) {
             this.id = id;
         }
     }
 
-    @PutMapping("/api/v2/members/{id}")
+    @PatchMapping("/api/v2/members/{id}")
     public UpdateMemberResponse updateMemberV2(@PathVariable Long id,
                                                @RequestBody @Valid UpdateMemberRequest request){
         memberService.update(id, request.getName());
