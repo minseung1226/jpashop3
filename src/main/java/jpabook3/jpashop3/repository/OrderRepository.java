@@ -5,7 +5,6 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import jpabook3.jpashop3.domain.*;
 import jpabook3.jpashop3.domain.Order;
-import jpabook3.jpashop3.repository.querydto.OrderSimpleQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -97,8 +96,22 @@ public class OrderRepository {
                 "join fetch o.delivery d").getResultList();
     }
 
+    public List<Order> findAllWithMemberDelivery(int offset,int limit) {
+        return em.createQuery("select o from Order o " +
+                "join fetch o.member m " +
+                "join fetch o.delivery d")
+                .setFirstResult(offset)
+                .setMaxResults(limit).getResultList();
+    }
 
 
-
-
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+                "select o from Order o " +
+                        "join fetch o.member " +
+                        "join fetch o.delivery " +
+                        "join fetch o.orderItems oi " +
+                        "join fetch oi.item",Order.class
+        ).getResultList();
+    }
 }

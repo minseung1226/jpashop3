@@ -38,6 +38,7 @@ public class OrderSimpleApiController {
 
         for (Order order : list) {
             order.getMember().getName();
+
         }
 
         return list;
