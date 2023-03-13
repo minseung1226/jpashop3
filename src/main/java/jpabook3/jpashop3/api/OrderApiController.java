@@ -2,6 +2,9 @@ package jpabook3.jpashop3.api;
 
 import jpabook3.jpashop3.domain.*;
 import jpabook3.jpashop3.repository.OrderRepository;
+import jpabook3.jpashop3.repository.querydto.OrderFlatDto;
+import jpabook3.jpashop3.repository.querydto.OrderQueryDto;
+import jpabook3.jpashop3.repository.queryrepository.OrderQueryRepository;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 public class OrderApiController {
 
     private final OrderRepository orderRepository;
+    private final OrderQueryRepository queryRepository;
 
     @GetMapping("/api/v1/orders")
     public List<Order> ordersV1(){
@@ -52,6 +56,21 @@ public class OrderApiController {
                                         @RequestParam(value = "limit" ,defaultValue = "100") int limit) {
         return orderRepository.findAllWithMemberDelivery().stream()
                 .map(OrderDto::new).collect(Collectors.toList());
+    }
+
+    @GetMapping("/api/v4/orders")
+    public List<OrderQueryDto> ordersV4(){
+        return queryRepository.findOrderQueryDtos();
+    }
+
+    @GetMapping("/api/v5/orders")
+    public List<OrderQueryDto> ordersV5(){
+        return queryRepository.findAllByDto_optimization();
+    }
+
+    @GetMapping("/api/v6/orders")
+    public List<OrderFlatDto> ordersV6(){
+        return queryRepository.findAllByDto_flat();
     }
 
     @Data
